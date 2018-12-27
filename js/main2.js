@@ -10,7 +10,7 @@ var config = {
 firebase.initializeApp(config);
 var app = angular.module("moist", ["firebase"]);
 app.controller("moist_ctrl", function ($scope, $firebaseObject, $firebaseArray) {
-    ($firebaseObject(firebase.database().ref('/data'))).$bindTo($scope, 'all_data');
+    $scope.all_data = $firebaseArray(firebase.database().ref('/data'));
     $scope.clear_data = () => {
         firebase.database().ref('/data').remove();
     }
