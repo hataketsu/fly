@@ -1,0 +1,77 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Hệ thống giám sát - điều khiển hệ thống tưới tự động qua web server </title>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/firebase/firebase.js"></script>
+    <script src="bower_components/angularfire/dist/angularfire.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/semantic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+    <script src="bower_components/jquery-timepicker-wvega/jquery.timepicker.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+    <link rel="stylesheet" href="bower_components/jquery-timepicker-wvega/jquery.timepicker.css">
+
+    <link rel="stylesheet" href="css/semantic.min.css">
+    <link rel="stylesheet" href="css/custom.css">
+</head>
+<body style="background: #EFF8FF" ng-app="moist" ng-controller="moist_ctrl">
+<div class="ui grid">
+    <div class="ui two wide column">
+        <img src="img/nlu.jpeg" style="width: 100%;padding: 10%">
+    </div>
+    <div class="ui twelve wide column" style="text-align: center;">
+        <div style="text-transform: uppercase;padding-top: 20px">
+            <h1 class="text_green">Trường Đại học xx xx xx</h1>
+            <h2 class="text_green">Khoa cơ khí - công nghệ</h2>
+            <h1 class="text_green">Hệ thống giám sát - điều khiển hệ thống tưới tự động qua web server </h1>
+        </div>
+        <br>
+        <div class="text_red">
+            <h4>SVTH: xx xx xx</h4>
+            <h4>Mã số: 13138116</h4>
+            <h4>GVHD: TH.S xx xx xx</h4>
+        </div>
+
+        <br>
+    </div>
+
+    <div class="ui two wide column">
+        <img src="img/cokhi.jpg" style="width: 100%;padding: 10%">
+    </div>
+</div>
+
+<br>
+<br>
+<div class="ui container">
+    <div class="ui fluid card" style="padding: 20px">
+        <h1>Danh sách lưu trữ</h1>
+        <button class="ui red button" ng-click="clear_data()"><i class="delete icon"></i>Xoá hết</button>
+        <table class="ui table">
+            <thead>
+            <tr>
+                <th>Thời gian</th>
+                <th>Nhiệt độ</th>
+                <th>Độ ẩm không khí</th>
+                <th>Độ ẩm đất</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="d in all_data">
+                <td>{{ d.time* 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td>{{d.temp}} &#176;C</td>
+                <td>{{d.humi}} %</td>
+                <td>{{d.moist}} %</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<br>
+</body>
+<script src="js/main2.js"></script>
+
+</html>

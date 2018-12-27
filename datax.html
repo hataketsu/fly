@@ -1,0 +1,162 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>Hệ thống giám sát - điều khiển hệ thống tưới tự động qua web server </title>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/firebase/firebase.js"></script>
+    <script src="bower_components/angularfire/dist/angularfire.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/semantic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+    <script src="bower_components/jquery-timepicker-wvega/jquery.timepicker.js"></script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+    <link rel="stylesheet" href="bower_components/jquery-timepicker-wvega/jquery.timepicker.css">
+
+    <link rel="stylesheet" href="css/semantic.min.css">
+    <link rel="stylesheet" href="css/custom.css">
+</head>
+<body style="background: #EFF8FF" ng-app="moist" ng-controller="moist_ctrl">
+<div class="ui grid">
+    <div class="ui two wide column">
+        <img src="img/nlu.jpeg" style="width: 100%;padding: 10%">
+    </div>
+    <div class="ui twelve wide column" style="text-align: center;">
+        <div style="text-transform: uppercase;padding-top: 20px">
+            <h1 class="text_green">Trường Đại học xx xx xx</h1>
+            <h2 class="text_green">Khoa cơ khí - công nghệ</h2>
+            <h1 class="text_green">Hệ thống giám sát - điều khiển hệ thống tưới tự động qua web server </h1>
+        </div>
+        <br>
+        <div class="text_red">
+            <h4>SVTH: xx xx xx</h4>
+            <h4>Mã số: 13138116</h4>
+            <h4>GVHD: TH.S xx xx xx</h4>
+        </div>
+
+        <br>
+    </div>
+
+    <div class="ui two wide column">
+        <img src="img/cokhi.jpg" style="width: 100%;padding: 10%">
+    </div>
+</div>
+
+<br>
+<br>
+<div class="ui container">
+
+    <div class="ui four column grid">
+        <div class="column">
+            <div class="ui card" style="padding: 20px">
+                <div class="ui two column grid">
+                    <div class="column">
+                        <br>
+                        <i class="red huge thermometer icon"></i>
+                    </div>
+                    <div class="column" style="text-align: right">
+                        <h4>Nhiệt độ</h4>
+                        <h1>{{data.temp}}&#176;C</h1>
+                    </div>
+                </div>
+
+                <div class="ui divider"></div>
+                <p><i class="refresh icon"></i> Updated 8 mins ago</p>
+            </div>
+        </div>
+        <div class="column">
+            <div class="ui card" style="padding: 20px">
+                <div class="ui grid">
+                    <div class="six wide column">
+                        <br>
+                        <i class="blue huge tint icon"></i>
+                    </div>
+                    <div class="ten wide column" style="text-align: right">
+                        <h4>Độ ẩm không khí</h4>
+                        <h1>{{data.humi}} %</h1>
+                    </div>
+                </div>
+
+                <div class="ui divider"></div>
+                <p><i class="refresh icon"></i> Updated 8 mins ago</p>
+            </div>
+        </div>
+        <div class="column">
+            <div class="ui card" style="padding: 20px">
+                <div class="ui grid">
+                    <div class="six wide column">
+                        <br>
+                        <i class="green huge rain icon"></i>
+                    </div>
+                    <div class="ten wide column" style="text-align: right">
+                        <h4>Độ ẩm đất</h4>
+                        <h1>{{data.moist}} %</h1>
+                    </div>
+                </div>
+
+                <div class="ui divider"></div>
+                <p><i class="refresh icon"></i> Updated 8 mins ago</p>
+            </div>
+        </div>
+        <div class="column">
+            <div class="ui card" style="padding: 20px">
+                <div class="ui two column grid">
+                    <div class="column">
+                        <br>
+                        <i class="blue huge shower icon"></i>
+                    </div>
+                    <div class="column" style="text-align: right">
+                        <h4>Máy bơm</h4>
+                        <h1 ng-if="data.pump==0">Bật</h1>
+                        <h1 ng-if="data.pump==1">Tắt</h1>
+                    </div>
+                </div>
+
+                <div class="ui divider"></div>
+                <p><i class="refresh icon"></i> Updated 8 mins ago</p>
+
+            </div>
+        </div>
+    </div>
+    <div class="ui grid">
+        <div class="twelve wide column">
+            <div class="ui fluid card" style="padding: 20px">
+                <h4 style="margin-top: 0px">Biểu đồ</h4>
+                <canvas id="myChart" height="400" style="width: 100%"></canvas>
+            </div>
+            <script>
+
+            </script>
+        </div>
+        <div class="four wide column">
+            <div class="ui card" style="padding: 20px">
+                <h4>Điều khiển máy bơm</h4>
+                <p>Ngưỡng độ ẩm:</p>
+                <div class="ui right labeled  fluid input">
+                    <input type="number" ng-model="config.moist">
+                    <div class="ui basic label">
+                        %
+                    </div>
+                </div>
+                <br>
+                <div class="ui checkbox">
+                    <input type="checkbox" ng-model="config.auto" ]>
+                    <label>Tự động</label>
+                </div>
+                <br>
+                <div class="ui buttons">
+                    <button ng-click="config.auto=false;config.pump=0" class="ui green button">Bật</button>
+                    <button ng-click="config.auto=false;config.pump=1" class="ui red button">Tắt</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<br>
+</body>
+<script src="js/main.js"></script>
+
+</html>
