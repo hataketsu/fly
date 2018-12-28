@@ -65,4 +65,8 @@ app.controller("moist_ctrl", function ($scope, $firebaseObject, $firebaseArray) 
         }
         myChart.update();
     });
+    $scope.all_data = $firebaseArray(firebase.database().ref('/data'));
+    $scope.clear_data = () => {
+        firebase.database().ref('/data').remove();
+    }
 });
