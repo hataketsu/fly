@@ -11,6 +11,10 @@ firebase.initializeApp(config);
 var app = angular.module("moist", ["firebase"]);
 app.controller("moist_ctrl", function ($scope, $firebaseObject, $firebaseArray) {
     ctx = document.getElementById("myChart").getContext('2d');
+    $scope.all_data = $firebaseArray(firebase.database().ref('/data'));
+    $scope.clear_data = () => {
+        firebase.database().ref('/data').remove();
+    };
     temp = {
         label: 'Nhiệt độ',
         data: [],
@@ -45,9 +49,8 @@ app.controller("moist_ctrl", function ($scope, $firebaseObject, $firebaseArray) 
             }
         }]
     });
-    ($firebaseObject(firebase.database().ref('/current'))).$bindTo($scope, 'data');
-    ($firebaseObject(firebase.database().ref('/config'))).$bindTo($scope, 'config');
-    ($firebaseObject(firebase.database().ref('/data'))).$bindTo($scope, 'all_data');
+    $scope.data = $firebaseObject(firebase.database().ref('/current'));
+    $scope.config = $firebaseObject(firebase.database().ref('/config'));
     var list = $firebaseArray(firebase.database().ref('/data'));
     list.$ref().orderByChild("time").limitToLast(20).on("child_added", function (snapshot) {
         snapshot = snapshot.val();
@@ -65,8 +68,5 @@ app.controller("moist_ctrl", function ($scope, $firebaseObject, $firebaseArray) 
         }
         myChart.update();
     });
-    $scope.all_data = $firebaseArray(firebase.database().ref('/data'));
-    $scope.clear_data = () => {
-        firebase.database().ref('/data').remove();
-    }
+
 });
